@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Data/Data.csproj" />
+  <Project Path="WereouseAPI/WereouseAPI.csproj" />
+</Solution>

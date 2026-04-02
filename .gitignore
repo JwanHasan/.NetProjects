@@ -1,0 +1,7 @@
+# Ignore all files
+bin/
+obj/
+appsettings.Development.json
+.vscode/
+*.log
+products.db

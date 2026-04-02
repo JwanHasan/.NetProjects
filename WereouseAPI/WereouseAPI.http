@@ -1,0 +1,6 @@
+@WereouseAPI_HostAddress = http://localhost:5121
+
+GET {{WereouseAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
