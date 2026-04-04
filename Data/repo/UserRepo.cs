@@ -55,14 +55,14 @@ public class UserRepo : IUserRepo
 
     public async Task<User> GetUserByIdAsync(int id)
     {
-        var foundUser =await _context.Users.FirstOrDefaultAsync(x=> x.Id == id)?? throw new Exception($"User with Id {id} does not exist");
+        var foundUser =await _context.Users.Include(x=> x.Products).FirstOrDefaultAsync(x=> x.Id == id)?? throw new Exception($"User with Id {id} does not exist");
 
         return foundUser;
     }
 
     public async Task<User> GetUserByUserNameAsync(string username)
     {
-        var foundUser =await _context.Users.FirstOrDefaultAsync(x=> x.UserName == username)?? throw new Exception($"User with username {username} does not exist");
+        var foundUser =await _context.Users.Include(x=> x.Products).FirstOrDefaultAsync(x=> x.UserName == username)?? throw new Exception($"User with username {username} does not exist");
 
         return foundUser;
     }

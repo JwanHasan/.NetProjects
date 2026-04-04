@@ -18,7 +18,8 @@ public ProductRepo(AppDbContext context)
         var product = new Product{ 
         Name= newProduct.Name,
         Location= newProduct.Location,
-        Quantity= newProduct.Quantity};
+        Quantity= newProduct.Quantity,
+        UserId = newProduct.UserId};
 
         await _context.Products.AddAsync( product);
 
@@ -48,7 +49,7 @@ public ProductRepo(AppDbContext context)
 
     public async Task<Product> GetProductByIdAsync(int id)
     {
-        var foundProduct= await _context.Products
+        var foundProduct= await _context.Products.Include(p=> p.User)
         .FirstOrDefaultAsync(x=> x.Id==id) ?? throw new Exception("no items found");
 
         return foundProduct;
