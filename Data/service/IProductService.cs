@@ -3,10 +3,10 @@ namespace Data.service;
 
 interface IProductService
 {
-    Task<Product> AddProductAsync(NewProduct newProduct);
+    Task AddProductAsync(NewProduct newProduct);
      Task<Product> GetProductByIdAsync(int id);
      Task<List<Product>> GetAllProductAsync();
-     Task<Product> UpdateProductQuantityAsync(int id, int quantaty);
-     Task<Product> UpdateProductLocationAsync(int id, string location);
-     Task DeleteProductAsync(int id);
+     Task UpdateProductQuantityAsync(int id, int quantity, int userId);
+     Task UpdateProductLocationAsync(int id, string location, int userId);
+     Task DeleteProductAsync(int productId,int userId );
 }

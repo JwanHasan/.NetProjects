@@ -50,28 +50,28 @@ public ProductRepo(AppDbContext context)
     public async Task<Product> GetProductByIdAsync(int id)
     {
         var foundProduct= await _context.Products.Include(p=> p.User)
-        .FirstOrDefaultAsync(x=> x.Id==id) ?? throw new Exception("no items found");
+        .FirstOrDefaultAsync(x=> x.Id==id) ?? throw new KeyNotFoundException("no items found");
 
         return foundProduct;
     }
 
     public async Task<Product> UpdateProductLocationAsync(int id, string location)
     {
-        var findproct= await GetProductByIdAsync(id);
+        var findProduct= await GetProductByIdAsync(id);
 
-        findproct.Location= location;
+        findProduct.Location= location;
         await _context.SaveChangesAsync();
 
-        return findproct;
+        return findProduct;
     }
 
-    public async Task<Product> UpdateProductQuantityAsync(int id, int quantaty)
+    public async Task<Product> UpdateProductQuantityAsync(int id, int quantity)
     {
-        var findproct= await GetProductByIdAsync(id);
+        var findProduct= await GetProductByIdAsync(id);
 
-        findproct.Quantity= quantaty;
+        findProduct.Quantity= quantity;
         await _context.SaveChangesAsync();
 
-        return findproct;
+        return findProduct;
     }
 }
