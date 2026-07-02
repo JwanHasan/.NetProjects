@@ -8,7 +8,7 @@ public interface IUserService
     Task<User> GetUserByUsernameAsync(string username);
 
     // Commands
-    Task<User> CreateUserAsync(UserDTO userDto, string username, string password, bool isAdmin);
+    Task<User> CreateUserAsync(string adminUsername, NewUser newUser);
     Task<User> UpdateUserPasswordAsync(UserDTO userDto, string password);
 
     Task<bool> DeleteUserAsync(int id,UserDTO userDTO);

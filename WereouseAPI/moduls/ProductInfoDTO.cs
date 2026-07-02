@@ -1,4 +1,4 @@
-namespace moduls;
+namespace WereouseAPI.moduls;
 public class ProductInfoDTO
 {
     public required string Name { get; set; }

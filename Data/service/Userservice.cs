@@ -1,4 +1,3 @@
-using System.Text;
 using Data.moduls;
 using Data.repo;
 using Microsoft.IdentityModel.Tokens;
@@ -16,13 +15,13 @@ public class UserService : IUserService
 		_userRepo = userRepo;
 	}
 
-    public async Task<User> CreateUserAsync(UserDTO userDto, string username, string password, bool isAdmin)
+    public async Task<User> CreateUserAsync(string adminUsername, NewUser newUser)
     {	
 		// 1. Check current user
     	User currentUser;
     	try
     	{
-        	currentUser = await _userRepo.GetUserByUserNameAsync(userDto.Username);
+        	currentUser = await _userRepo.GetUserByUserNameAsync(adminUsername);
     	}
     	catch
     	{
@@ -33,28 +32,23 @@ public class UserService : IUserService
        	 throw new UnauthorizedAccessException("Only admin can create users");
 
     // 2. Validate inputs
-    	if (string.IsNullOrWhiteSpace(username))
+    	if (string.IsNullOrWhiteSpace(newUser.UserName))
         	throw new ArgumentException("Username must be included");
-    	if (string.IsNullOrWhiteSpace(password))
+    	if (string.IsNullOrWhiteSpace(newUser.Password))
         	throw new ArgumentException("Password must be included");
 
-    	if (await _userRepo.IsUsernameUsed(username))
+    	if (await _userRepo.IsUsernameUsed(newUser.UserName))
        	 throw new ArgumentException("Username is already used");
 
     // 3. Hash password
-    	string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
+    	string passwordHash = BCrypt.Net.BCrypt.HashPassword(newUser.Password, workFactor: 12);
 
     // 4. Create user object
-   	 var newUser = new NewUser
-    	{
-        	UserName = username,
-        	Password = passwordHash, // rename in entity
-        	isAdmin = isAdmin
-    	};
+   	 newUser.Password = passwordHash;
 
     // 5. Save to database
  	 await _userRepo.CreateUserAsync(newUser);
-	var createdUser = await _userRepo.GetUserByUserNameAsync(username);
+	var createdUser = await _userRepo.GetUserByUserNameAsync(newUser.UserName);
 
 
     // 6. Return created user
